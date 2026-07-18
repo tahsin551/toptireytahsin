@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Order Confirmed — TopTire</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Work+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-page="cart">
+
+<header>
+  <div class="tread-strip thin"></div>
+  <nav class="wrap">
+    <a href="index.html" class="logo"><span class="dot"></span>TOPTIRE</a>
+    <button class="navtoggle" id="navToggle" aria-label="Toggle menu">☰</button>
+    <div class="navlinks" id="navLinks">
+      <a href="index.html" data-nav="home">Home</a>
+      <a href="shop.html" data-nav="shop">Shop</a>
+      <a href="about.html" data-nav="about">About</a>
+      <a href="contact.html" data-nav="contact">Contact</a>
+      <a href="cart.html" class="cart-btn" data-nav="cart">Cart <span class="cart-count" id="cartCount">0</span></a>
+    </div>
+  </nav>
+</header>
+
+<section class="block">
+  <div class="wrap">
+    <div class="confirm-box" id="confirmBox"></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h4 class="logo" style="color:var(--paper);">TOPTIRE</h4>
+        <p style="max-width:260px;">Heavyweight streetwear, built to grip. Based in Chattogram, delivered across Bangladesh.</p>
+      </div>
+      <div>
+        <h4>SHOP</h4>
+        <a href="shop.html">All Products</a>
+        <a href="cart.html">Cart</a>
+      </div>
+      <div>
+        <h4>COMPANY</h4>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div>
+        <h4>PAYMENT</h4>
+        <p>Cash on Delivery</p>
+        <p>bKash · Nagad · Rocket</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 TopTire. All rights reserved.</span>
+      <span>Made in Chattogram.</span>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script src="products.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/common.js"></script>
+<script>
+  function renderConfirm(){
+    const box = document.getElementById('confirmBox');
+    let order = null;
+    try{ order = JSON.parse(localStorage.getItem(ORDER_KEY)); }catch(e){}
+    if(!order){
+      box.innerHTML = `<h2>No recent order</h2><p>Head back to the shop to place one.</p><a href="shop.html" class="btn btn-dark">Shop Now</a>`;
+      return;
+    }
+    const payLine = order.payment === 'cod'
+      ? 'Cash on Delivery — pay when it arrives.'
+      : `Mobile Banking (${order.mbProvider.toUpperCase()}) — Transaction ID ${order.mbTrx}, pending confirmation.`;
+    box.innerHTML = `
+      <div class="eyebrow" style="background:var(--asphalt);">ORDER PLACED</div>
+      <h1 style="margin-top:18px;">Thanks, ${order.name.split(' ')[0] || 'there'}.</h1>
+      <div class="id mono">${order.orderId}</div>
+      <p>${payLine}</p>
+      <p>Delivering to <strong>${order.address}, ${order.city}</strong>. Estimated arrival: 2–3 days in Chattogram, 4–6 days nationwide.</p>
+      <p class="mono" style="margin-top:20px; font-size:15px;">Order Total: ${money(order.total)}</p>
+      <div style="margin-top:30px;"><a href="shop.html" class="btn btn-primary">Continue Shopping</a></div>
+    `;
+  }
+  renderConfirm();
+</script>
+</body>
+</html>

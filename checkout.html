@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout — TopTire</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Work+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-page="cart">
+
+<header>
+  <div class="tread-strip thin"></div>
+  <nav class="wrap">
+    <a href="index.html" class="logo"><span class="dot"></span>TOPTIRE</a>
+    <button class="navtoggle" id="navToggle" aria-label="Toggle menu">☰</button>
+    <div class="navlinks" id="navLinks">
+      <a href="index.html" data-nav="home">Home</a>
+      <a href="shop.html" data-nav="shop">Shop</a>
+      <a href="about.html" data-nav="about">About</a>
+      <a href="contact.html" data-nav="contact">Contact</a>
+      <a href="cart.html" class="cart-btn" data-nav="cart">Cart <span class="cart-count" id="cartCount">0</span></a>
+    </div>
+  </nav>
+</header>
+
+<div class="page-hero">
+  <div class="wrap">
+    <h1>Checkout</h1>
+    <p>Cash on Delivery or Mobile Banking — your choice.</p>
+  </div>
+</div>
+<section class="block">
+  <div class="wrap" id="checkoutWrap"></div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h4 class="logo" style="color:var(--paper);">TOPTIRE</h4>
+        <p style="max-width:260px;">Heavyweight streetwear, built to grip. Based in Chattogram, delivered across Bangladesh.</p>
+      </div>
+      <div>
+        <h4>SHOP</h4>
+        <a href="shop.html">All Products</a>
+        <a href="cart.html">Cart</a>
+      </div>
+      <div>
+        <h4>COMPANY</h4>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div>
+        <h4>PAYMENT</h4>
+        <p>Cash on Delivery</p>
+        <p>bKash · Nagad · Rocket</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 TopTire. All rights reserved.</span>
+      <span>Made in Chattogram.</span>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script src="js/products.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/common.js"></script>
+<script>
+  let selectedPayment = 'cod';
+
+  function renderCheckout(){
+    const wrap = document.getElementById('checkoutWrap');
+    const cart = getCart();
+    if(cart.length === 0){
+      wrap.innerHTML = `<div class="empty-state">
+        <h3>Nothing to check out yet</h3>
+        <p>Add a product to your cart first.</p>
+        <a href="shop.html" class="btn btn-dark">Browse the Shop</a>
+      </div>`;
+      return;
+    }
+    const subtotal = cartSubtotal();
+    const delivery = 80;
+    wrap.innerHTML = `
+      <div class="co-wrap">
+        <form id="checkoutForm">
+          <div class="form-group">
+            <label for="ordName">Full Name</label>
+            <input type="text" id="ordName" required>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="ordPhone">Phone Number</label>
+              <input type="tel" id="ordPhone" placeholder="01XXXXXXXXX" required>
+            </div>
+            <div class="form-group">
+              <label for="ordCity">City / District</label>
+              <input type="text" id="ordCity" placeholder="e.g. Chattogram" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="ordAddress">Delivery Address</label>
+            <textarea id="ordAddress" rows="3" required></textarea>
+          </div>
+
+          <span class="field-label">Payment Method</span>
+          <div class="pay-options">
+            <label class="pay-opt ${selectedPayment==='cod'?'selected':''}" onclick="selectPayment('cod')">
+              <input type="radio" name="pay" ${selectedPayment==='cod'?'checked':''}>
+              <span><span class="pt">Cash on Delivery</span><br><span class="ps">Pay in cash when your order arrives at your door.</span></span>
+            </label>
+            <label class="pay-opt ${selectedPayment==='mobile'?'selected':''}" onclick="selectPayment('mobile')">
+              <input type="radio" name="pay" ${selectedPayment==='mobile'?'checked':''}>
+              <span><span class="pt">Mobile Banking</span><br><span class="ps">Pay now via bKash, Nagad, or Rocket.</span></span>
+            </label>
+          </div>
+
+          <div id="mobileBankingPanel"></div>
+
+          <button type="submit" class="btn btn-primary btn-block">Place Order — ${money(subtotal+delivery)}</button>
+        </form>
+
+        <div class="order-summary">
+          <h3 style="color:var(--paper); font-size:16px; margin-bottom:16px;">Order Summary</h3>
+          ${cart.map(i => `<div class="os-item"><span>${i.name} (${i.size}) x${i.qty}</span><span class="mono">${money(i.price*i.qty)}</span></div>`).join('')}
+          <div class="sum-row" style="margin-top:10px;"><span>Subtotal</span><span class="mono">${money(subtotal)}</span></div>
+          <div class="sum-row"><span>Delivery</span><span class="mono">${money(delivery)}</span></div>
+          <div class="sum-row total"><span>Total</span><span>${money(subtotal+delivery)}</span></div>
+        </div>
+      </div>
+    `;
+    renderMobileBankingPanel();
+    document.getElementById('checkoutForm').addEventListener('submit', handlePlaceOrder);
+  }
+  function selectPayment(method){
+    selectedPayment = method;
+    renderCheckout();
+  }
+  function renderMobileBankingPanel(){
+    const panel = document.getElementById('mobileBankingPanel');
+    if(!panel) return;
+    if(selectedPayment === 'mobile'){
+      panel.innerHTML = `
+        <div class="mb-panel">
+          Send the total amount to <span class="num">01700-000000</span> (bKash / Nagad / Rocket — Personal), then enter the Transaction ID below. We'll confirm your payment before shipping.
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="mbProvider">Provider</label>
+            <select id="mbProvider">
+              <option value="bkash">bKash</option>
+              <option value="nagad">Nagad</option>
+              <option value="rocket">Rocket</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="mbTrx">Transaction ID</label>
+            <input type="text" id="mbTrx" placeholder="e.g. 8N7K2X1A9B" required>
+          </div>
+        </div>
+      `;
+    } else {
+      panel.innerHTML = '';
+    }
+  }
+  function handlePlaceOrder(e){
+    e.preventDefault();
+    const name = document.getElementById('ordName').value.trim();
+    const phone = document.getElementById('ordPhone').value.trim();
+    const city = document.getElementById('ordCity').value.trim();
+    const address = document.getElementById('ordAddress').value.trim();
+    let mbProvider = null, mbTrx = null;
+    if(selectedPayment === 'mobile'){
+      mbProvider = document.getElementById('mbProvider').value;
+      mbTrx = document.getElementById('mbTrx').value.trim();
+      if(!mbTrx){ showToast('Please enter your Transaction ID'); return; }
+    }
+    const subtotal = cartSubtotal();
+    const delivery = 80;
+    const orderId = 'TT-' + Math.floor(10000 + Math.random()*89999);
+    const order = {
+      orderId, name, phone, city, address,
+      payment: selectedPayment, mbProvider, mbTrx,
+      items: getCart(),
+      subtotal, delivery, total: subtotal+delivery
+    };
+    localStorage.setItem(ORDER_KEY, JSON.stringify(order));
+    saveCart([]);
+    location.href = 'order-confirmation.html';
+  }
+
+  renderCheckout();
+</script>
+</body>
+</html>

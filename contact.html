@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact — TopTire</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Work+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-page="contact">
+
+<header>
+  <div class="tread-strip thin"></div>
+  <nav class="wrap">
+    <a href="index.html" class="logo"><span class="dot"></span>TOPTIRE</a>
+    <button class="navtoggle" id="navToggle" aria-label="Toggle menu">☰</button>
+    <div class="navlinks" id="navLinks">
+      <a href="index.html" data-nav="home">Home</a>
+      <a href="shop.html" data-nav="shop">Shop</a>
+      <a href="about.html" data-nav="about">About</a>
+      <a href="contact.html" data-nav="contact">Contact</a>
+      <a href="cart.html" class="cart-btn" data-nav="cart">Cart <span class="cart-count" id="cartCount">0</span></a>
+    </div>
+  </nav>
+</header>
+
+<div class="page-hero">
+  <div class="wrap">
+    <h1>Contact Us</h1>
+    <p>Questions about an order, sizing, or bulk requests — reach out.</p>
+  </div>
+</div>
+<section class="block">
+  <div class="wrap contact-grid">
+    <div>
+      <div class="contact-info-item">
+        <div class="cl">Phone / WhatsApp</div>
+        <div class="cv">+880 1700-000000</div>
+      </div>
+      <div class="contact-info-item">
+        <div class="cl">Email</div>
+        <div class="cv">hello@toptire.example</div>
+      </div>
+      <div class="contact-info-item">
+        <div class="cl">Location</div>
+        <div class="cv">Chattogram, Bangladesh</div>
+      </div>
+      <div class="contact-info-item">
+        <div class="cl">Hours</div>
+        <div class="cv">Sat–Thu, 10:00 AM – 8:00 PM</div>
+      </div>
+    </div>
+    <div>
+      <form id="contactForm">
+        <div class="form-group">
+          <label for="cName">Name</label>
+          <input type="text" id="cName" required>
+        </div>
+        <div class="form-group">
+          <label for="cPhone">Phone</label>
+          <input type="tel" id="cPhone" required>
+        </div>
+        <div class="form-group">
+          <label for="cMsg">Message</label>
+          <textarea id="cMsg" rows="4" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-dark btn-block">Send Message</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h4 class="logo" style="color:var(--paper);">TOPTIRE</h4>
+        <p style="max-width:260px;">Heavyweight streetwear, built to grip. Based in Chattogram, delivered across Bangladesh.</p>
+      </div>
+      <div>
+        <h4>SHOP</h4>
+        <a href="shop.html">All Products</a>
+        <a href="cart.html">Cart</a>
+      </div>
+      <div>
+        <h4>COMPANY</h4>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div>
+        <h4>PAYMENT</h4>
+        <p>Cash on Delivery</p>
+        <p>bKash · Nagad · Rocket</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 TopTire. All rights reserved.</span>
+      <span>Made in Chattogram.</span>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script src="js/products.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/common.js"></script>
+<script>
+  document.getElementById('contactForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    showToast("Message sent — we'll get back to you soon.");
+    e.target.reset();
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TopTire — Built to Grip. Made to Last.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Work+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-page="home">
+
+<header>
+  <div class="tread-strip thin"></div>
+  <nav class="wrap">
+    <a href="index.html" class="logo"><span class="dot"></span>TOPTIRE</a>
+    <button class="navtoggle" id="navToggle" aria-label="Toggle menu">☰</button>
+    <div class="navlinks" id="navLinks">
+      <a href="index.html" data-nav="home">Home</a>
+      <a href="shop.html" data-nav="shop">Shop</a>
+      <a href="about.html" data-nav="about">About</a>
+      <a href="contact.html" data-nav="contact">Contact</a>
+      <a href="cart.html" class="cart-btn" data-nav="cart">Cart <span class="cart-count" id="cartCount">0</span></a>
+    </div>
+  </nav>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <span class="eyebrow">CHATTOGRAM, BANGLADESH — EST. STREETWEAR</span>
+    <h1>GRIP THE STREET.<br><span class="accent">WEAR</span> THE TREAD.</h1>
+    <p class="lead">TopTire builds heavyweight streetwear for people who move fast and land solid. Tees, hoodies, joggers — cut tough, priced fair.</p>
+    <div class="hero-ctas">
+      <a href="shop.html" class="btn btn-primary">Shop the Collection</a>
+      <a href="about.html" class="btn btn-outline">Our Story</a>
+    </div>
+  </div>
+</div>
+
+<div class="marquee">
+  <div class="marquee-track">
+    <span>● CASH ON DELIVERY AVAILABLE</span>
+    <span>● BKASH / NAGAD / ROCKET ACCEPTED</span>
+    <span>● DELIVERY ACROSS BANGLADESH</span>
+    <span>● CASH ON DELIVERY AVAILABLE</span>
+    <span>● BKASH / NAGAD / ROCKET ACCEPTED</span>
+    <span>● DELIVERY ACROSS BANGLADESH</span>
+  </div>
+</div>
+
+<section class="block">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Featured Drops</h2>
+      <span class="section-tag">// 04 PIECES</span>
+    </div>
+    <div class="grid" id="featuredGrid"></div>
+  </div>
+</section>
+
+<section class="block" style="padding-top:0;">
+  <div class="wrap">
+    <div class="why-grid">
+      <div class="why-item">
+        <span class="num">01</span>
+        <h3>Pay However You Move</h3>
+        <p>Cash on Delivery or Mobile Banking (bKash, Nagad, Rocket) — pick what's easy for you at checkout.</p>
+      </div>
+      <div class="why-item">
+        <span class="num">02</span>
+        <h3>Built Heavy</h3>
+        <p>240 GSM cotton, reinforced seams. Made to survive daily wear, not just a photo.</p>
+      </div>
+      <div class="why-item">
+        <span class="num">03</span>
+        <h3>Fast, Local Delivery</h3>
+        <p>2–3 days inside Chattogram, 4–6 days nationwide. Tracked every step.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h4 class="logo" style="color:var(--paper);">TOPTIRE</h4>
+        <p style="max-width:260px;">Heavyweight streetwear, built to grip. Based in Chattogram, delivered across Bangladesh.</p>
+      </div>
+      <div>
+        <h4>SHOP</h4>
+        <a href="shop.html">All Products</a>
+        <a href="cart.html">Cart</a>
+      </div>
+      <div>
+        <h4>COMPANY</h4>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div>
+        <h4>PAYMENT</h4>
+        <p>Cash on Delivery</p>
+        <p>bKash · Nagad · Rocket</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 TopTire. All rights reserved.</span>
+      <span>Made in Chattogram.</span>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script src="products.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/common.js"></script>
+<script>
+  document.getElementById('featuredGrid').innerHTML = PRODUCTS.slice(0,4).map(productCard).join('');
+</script>
+</body>
+</html>
